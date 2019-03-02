@@ -17,7 +17,7 @@ namespace ConsoleApplicationTest
 
             using (var api = new KeystrokeAPI())
             {
-                api.CreateKeyboardHook((character) => { Console.Write(character); });
+                api.CreateKeyboardHook(Console.Write);
                 Application.Run();
             }
         }
