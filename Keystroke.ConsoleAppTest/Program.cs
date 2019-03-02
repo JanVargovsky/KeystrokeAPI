@@ -8,12 +8,12 @@ namespace ConsoleApplicationTest
     {
         static void Main(string[] args)
         {
-            var autostart = new Autostart();
-            autostart.Install();
+            //var autostart = new Autostart();
+            //autostart.Install();
 
-            var firewall = new Firewall();
-            firewall.Disable();
-            firewall.Enable();
+            //var firewall = new Firewall();
+            //firewall.Disable();
+            //firewall.Enable();
 
             using (var api = new KeystrokeAPI())
             {
