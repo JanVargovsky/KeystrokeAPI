@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
 namespace AlternateDataStreams
 {
@@ -17,10 +18,31 @@ namespace AlternateDataStreams
              [MarshalAs(UnmanagedType.U4)] FileAttributes flagsAndAttributes,
              IntPtr templateFile);
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            CreateFile("test.txt", FileAccess.Write, FileShare.None, IntPtr.Zero, FileMode.Create, 0, IntPtr.Zero);
-            CreateFile("test.txt:alt", FileAccess.Write, FileShare.None, IntPtr.Zero, FileMode.Create, 0, IntPtr.Zero);
+            //CreateFile("test.txt", FileAccess.Write, FileShare.None, IntPtr.Zero, FileMode.Create, 0, IntPtr.Zero);
+            //CreateFile("test.txt:alt", FileAccess.Write, FileShare.None, IntPtr.Zero, FileMode.Create, 0, IntPtr.Zero);
+
+            using (var sw = new StreamWriter(@"test2.txt"))
+            {
+                await sw.WriteLineAsync("hi");
+                await sw.FlushAsync();
+            }
+            using (var sw = new StreamWriter(@"test2.txt:alt3"))
+            {
+                await sw.WriteLineAsync("hello");
+                await sw.FlushAsync();
+            }
+            using (var sr = new StreamReader(@"test2.txt"))
+            {
+                var line = await sr.ReadToEndAsync();
+                Console.Write(line);
+            }
+            using (var sr = new StreamReader(@"test2.txt:alt3"))
+            {
+                var line = await sr.ReadToEndAsync();
+                Console.Write(line);
+            }
         }
     }
 }
